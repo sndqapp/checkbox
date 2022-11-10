@@ -1,267 +1,298 @@
 export default {
-    editor: {
-        label: {
-            fr: 'Choix de Formulaire',
-            en: 'Form Radio'
-        }
+  editor: {
+    label: {
+      fr: "Choix de Formulaire",
+      en: "Checkbox Group",
     },
-    triggerEvents: [
-        {
-            name: 'change',
-            label: {
-                en: 'On Change'
-            },
-            event: {
-                value: ''
-            },
-            default: true
-        }, {
-            name: 'initValueChange',
-            label: {
-                en: 'On Init value change'
-            },
-            event: {
-                value: ''
-            }
-        },
-    ],
+  },
+  triggerEvents: [
+    {
+      name: "change",
+      label: {
+        en: "On Change",
+      },
+      event: {
+        value: "",
+      },
+      default: true,
+    },
+    {
+      name: "initValueChange",
+      label: {
+        en: "On Init value change",
+      },
+      event: {
+        value: "",
+      },
+    },
+  ],
 
-    properties: {
-        label: {
+  properties: {
+    label: {
+      label: {
+        en: "Label",
+      },
+      type: "Text",
+      section: "settings",
+      bindable: true,
+      defaultValue: "Label",
+    },
+    description: {
+      label: {
+        en: "Description",
+      },
+      type: "Text",
+      section: "settings",
+      bindable: true,
+      defaultValue: "Description",
+    },
+    descriptionLocation: {
+      label: {
+        en: "Description text location",
+      },
+      type: "TextSelect",
+      options: {
+        options: [
+          {
+            value: "belowlabel",
             label: {
-                en: 'Label'
+              en: "Below label",
             },
-            type: 'Text',
-            section: 'settings',
-            bindable: true,
-            defaultValue: 'Label'
-        },
-        description: {
+          },
+          {
+            value: "leftlabel",
             label: {
-                en: 'Description'
+              en: "Left label",
             },
-            type: 'Text',
-            section: 'settings',
-            bindable: true,
-            defaultValue: 'Description'
-        },
-        descriptionlocation: {
+          },
+        ],
+      },
+      bindable: true,
+      responsive: true,
+      section: "settings",
+      defaultValue: "belowlabel",
+    },
+    reddot: {
+      label: {
+        en: "Show the red dot",
+      },
+      type: "OnOff",
+      section: "settings",
+      defaultValue: false,
+    },
+    allOption: {
+      label: {
+        en: "Show select all toggle",
+      },
+      type: "OnOff",
+      section: "settings",
+      defaultValue: false,
+    },
+    allLabel: {
+      label: {
+        en: "Label for select all toggle",
+      },
+      type: "Text",
+      bindable: true,
+      section: "settings",
+      defaultValue: "All",
+    },
+    layout: {
+      label: {
+        en: "Option layout",
+      },
+      type: "TextSelect",
+      options: {
+        options: [
+          {
+            value: "horizontal",
             label: {
-                en: 'Description text location'
+              en: "Horizontal",
             },
-            type: 'TextSelect',
-            options: {
-                options: [
-                    {
-                        value: 'belowlabel',
-                        label: {
-                            en: 'Below label'
-                        }
-                    }, {
-                        value: 'leftlabel',
-                        label: {
-                            en: 'Left label'
-                        }
-                    }
-                ]
-            },
-            bindable: true,
-            responsive: true,
-            section: 'settings',
-            defaultValue: 'belowlabel'
-        },
-        reddot: {
+          },
+          {
+            value: "vertical",
             label: {
-                en: 'Show the red dot'
+              en: "Vertical",
             },
-            type: 'OnOff',
-            section: 'settings',
-            defaultValue: false
-        },
-        optionlayout: {
-            label: {
-                en: 'Option layout'
-            },
-            type: 'TextSelect',
-            options: {
-                options: [
-                    {
-                        value: 'horz',
-                        label: {
-                            en: 'Horizontal'
-                        }
-                    }, {
-                        value: 'vert',
-                        label: {
-                            en: 'Vertical'
-                        }
-                    }
-                ]
-            },
-            bindable: true,
-            responsive: true,
-            section: 'settings',
-            defaultValue: 'vert'
-        },
-        options: {
-            label: {
-                en: 'Choices values',
-                fr: 'Choices values'
-            },
-            type: 'Array',
-            section: 'settings',
-            options: {
-                item: {
-                    type: 'Object',
-                    options: {
-                        item: {
-                            label: {
-                                label: {
-                                    en: 'Label'
-                                },
-                                type: 'Text',
-                                options: {
-                                    placeholder: 'Label'
-                                }
-                            },
-                            value: {
-                                label: {
-                                    en: 'Value'
-                                },
-                                type: 'Text',
-                                options: {
-                                    placeholder: 'Value'
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            defaultValue: [
-                {
-                    value: 'first value',
-                    label: 'first label'
-                }, {
-                    value: 'second value',
-                    label: 'second label'
+          },
+        ],
+      },
+      bindable: true,
+      responsive: true,
+      section: "settings",
+      defaultValue: "horizontal",
+    },
+
+    options: {
+      label: {
+        en: "Choices values",
+        fr: "Choices values",
+      },
+      type: "Array",
+      section: "settings",
+      options: {
+        item: {
+          type: "Object",
+          options: {
+            item: {
+              label: {
+                label: {
+                  en: "Label",
                 },
-            ],
-            multilang: true,
-            bindable: true,
-            /* wwEditor:start */
-            bindingValidation: {
-                type: 'array',
-                tooltip: 'A collection of data in array format: \n\n `[{}, {}, ...] || ["string1", "string2", ...] || [1, 2, ...]`'
+                bindable: true,
+                type: "Text",
+                options: {
+                  placeholder: "Label",
+                },
+                defaultValue: "New Option Label",
+              },
+              value: {
+                label: {
+                  en: "Value",
+                },
+                bindable: true,
+                type: "Text",
+                options: {
+                  placeholder: "Value",
+                },
+                defaultValue: "New Option Value",
+              },
             },
-            /* wwEditor:end */
+          },
         },
-        value: {
-            label: {
-                en: 'Init value'
-            },
-            type: 'Text',
-            section: 'settings',
-            bindable: true,
-            defaultValue: '',
-            /* wwEditor:start */
-            bindingValidation: {
-                type: 'string',
-                tooltip: 'A string that defines the initial value: `"first value"`'
-            },
-            /* wwEditor:end */
+      },
+      defaultValue: [
+        {
+          value: "first value",
+          label: "First label",
         },
-        labelField: {
-            hidden: (content, sidepanelContent, boundProps) => !boundProps.options || !content.options || (content.options && typeof content.options[0] !== 'object'),
-            label: {
-                en: 'Label field',
-                fr: 'Label field'
-            },
-            type: 'TextSelect',
-            options: (content, sidepanelContent) => {
-                const data = content.options;
-                const options = sidepanelContent.itemsProperties.map(item => {
-                    return data && (typeof data[0][item] === 'string' || typeof data[0][item] === 'number') ? {
-                        value: item,
-                        label: {
-                            en: item
-                        }
-                    } : null;
-                }).filter(item => !!item);
-
-                return {
-                    options: [
-                        {
-                            value: null,
-                            label: {
-                                en: 'Select a property'
-                            }
-                        },
-                        ... options
-                    ]
-                };
-            },
-            defaultValue: null,
-            section: 'settings'
+        {
+          value: "second value",
+          label: "Second label",
         },
-        valueField: {
-            hidden: (content, sidepanelContent, boundProps) => !boundProps.options || !content.options || (content.options && typeof content.options[0] !== 'object'),
-            label: {
-                en: 'Value field',
-                fr: 'Value field'
-            },
-            type: 'TextSelect',
-            options: (content, sidepanelContent) => {
-                const options = sidepanelContent.itemsProperties.map(item => {
-                    return {
-                        value: item,
-                        label: {
-                            en: item
-                        }
-                    };
-                }).filter(item => !!item);
-
-                return {
-                    options: [
-                        {
-                            value: null,
-                            label: {
-                                en: 'Select a property'
-                            }
-                        },
-                        ... options
-                    ]
-                };
-            },
-            defaultValue: null,
-            section: 'settings'
-        },
-        choicesElement: {
-            hidden: true,
-            defaultValue: {
-                isWwObject: true,
-                type: 'ww-text'
-            }
-        },
-        itemsProperties: {
-            hidden: true,
-            defaultValue: [],
-            editorOnly: true
-        },
-        required: {
-            label: {
-                en: 'Required',
-                fr: 'Requis'
-            },
-            type: 'OnOff',
-            section: 'settings',
-            defaultValue: true,
-            bindable: true,
-            /* wwEditor:start */
-            bindingValidation: {
-                type: 'boolean',
-                tooltip: 'A boolean that defines if the input is required: `true | false`'
-            },
-            /* wwEditor:end */
+      ],
+      multilang: true,
+      bindable: true,
+      /* wwEditor:start */
+      bindingValidation: {
+        type: "array",
+        tooltip:
+          'A collection of data in array format: \n\n `[{}, {}, ...] || ["string1", "string2", ...] || [1, 2, ...]`',
+      },
+      /* wwEditor:end */
+    },
+    value: {
+      label: {
+        en: "Init value",
+      },
+      type: "Array",
+      section: "settings",
+      options: {
+        item: {
+          type: "Text",
         }
-    }
+      },
+      bindable: true,
+      defaultValue: [],
+      /* wwEditor:start */
+      bindingValidation: {
+        type: "array",
+        tooltip:
+          'A collection of data in array format: \n\n `[{}, {}, ...] || ["string1", "string2", ...] || [1, 2, ...]`',
+      },
+      /* wwEditor:end */
+    },
+    labelField: {
+      hidden: (content, sidepanelContent, boundProps) =>
+        !boundProps.options ||
+        !content.options ||
+        (content.options && typeof content.options[0] !== "object"),
+      label: {
+        en: "Label field",
+        fr: "Label field",
+      },
+      type: "TextSelect",
+      options: (content, sidepanelContent) => {
+        const data = content.options;
+        const options = sidepanelContent.itemsProperties
+          .map((item) => {
+            return data &&
+              (typeof data[0][item] === "string" ||
+                typeof data[0][item] === "number")
+              ? {
+                  value: item,
+                  label: {
+                    en: item,
+                  },
+                }
+              : null;
+          })
+          .filter((item) => !!item);
+
+        return {
+          options: [
+            {
+              value: null,
+              label: {
+                en: "Select a property",
+              },
+            },
+            ...options,
+          ],
+        };
+      },
+      defaultValue: null,
+      section: "settings",
+    },
+    valueField: {
+      hidden: (content, sidepanelContent, boundProps) =>
+        !boundProps.options ||
+        !content.options ||
+        (content.options && typeof content.options[0] !== "object"),
+      label: {
+        en: "Value field",
+        fr: "Value field",
+      },
+      type: "TextSelect",
+      options: (content, sidepanelContent) => {
+        const options = sidepanelContent.itemsProperties
+          .map((item) => {
+            return {
+              value: item,
+              label: {
+                en: item,
+              },
+            };
+          })
+          .filter((item) => !!item);
+
+        return {
+          options: [
+            {
+              value: null,
+              label: {
+                en: "Select a property",
+              },
+            },
+            ...options,
+          ],
+        };
+      },
+      defaultValue: null,
+      section: "settings",
+    },
+    choicesElement: {
+      hidden: true,
+      defaultValue: {
+        isWwObject: true,
+        type: "ww-text",
+      },
+    },
+    itemsProperties: {
+      hidden: true,
+      defaultValue: [],
+      editorOnly: true,
+    },
+  },
 };
