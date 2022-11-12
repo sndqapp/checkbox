@@ -1,14 +1,40 @@
 <template v-if="content">
-  <div class="sndq_input">
-    <input type="checkbox" :disabled="content.disabled" />
-    <div class="label">
-      {{ content.label }}
+  <div class="sndq_checkbox">
+    <div class="checkbox-row">
+      <input
+        type="checkbox"
+        :disabled="content.disabled"
+        :required="content.required"
+        :checked="checked"
+        @change="handleChange"
+        @invalid.prevent="handleInvalidInput"
+      />
+      <wwElement v-bind="content.labelElement"></wwElement>
+    </div>
+    <div class="error-message" v-if="content.required && errorMessage">
+      {{ errorMessage }}
     </div>
   </div>
 </template>
 
 <script>
+import { debounce } from "./utils";
 export default {
+  data() {
+    return {
+      errorMessage: "",
+    };
+  },
+  methods: {
+    handleInvalidInput(e) {
+      this.errorMessage = e.target.validationMessage;
+    },
+    handleChange(e) {
+      this.setChecked(e.target.checked);
+      this.errorMessage = "";
+      e.target.reportValidity();
+    },
+  },
   props: {
     content: { type: Object, required: true },
     /* wwEditor:start */
@@ -24,12 +50,13 @@ export default {
         uid: props.uid,
         name: "checked",
         type: "boolean",
-        defaultValue: false,
+        defaultValue: props.content.value,
       });
     return {
       checked,
       setChecked,
       uniqueId: wwLib.wwUtils.getUid(),
+      debounce,
     };
   },
   computed: {
@@ -42,55 +69,17 @@ export default {
       // eslint-disable-next-line no-unreachable
       return false;
     },
-    options() {},
-    values() {
-      return this.options.map(
-        (option) => option[this.content.valueField || "value"]
-      );
-    },
   },
   watch: {
     "content.value"(newValue) {
       if (newValue === this.value) return;
       this.setChecked(newValue);
+
+      this.errorMessage = "";
+
       this.$emit("trigger-event", {
         name: "initValueChange",
         event: { value: newValue },
-      });
-    },
-  },
-  methods: {
-    isSelected(option) {
-      return this.checked.indexOf(this.optionValue(option)) !== -1;
-    },
-
-    optionLabel(option) {
-      return option[this.content.labelField || "label"];
-    },
-
-    optionValue(option) {
-      return option[this.content.valueField || "value"];
-    },
-
-    handleAllClick(event) {
-      if (this.allState === "unchecked") {
-        this.setChecked(this.values);
-      } else {
-        this.setChecked([]);
-      }
-    },
-
-    handleCheckboxClick(event, option) {
-      if (this.isSelected(option)) {
-        this.setChecked(
-          this.checked.filter((value) => value !== this.optionValue(option))
-        );
-      } else {
-        this.setChecked([...this.checked, this.optionValue(option)]);
-      }
-      this.$emit("trigger-event", {
-        name: "change",
-        event: { domEvent: event, value: this.checked },
       });
     },
   },
@@ -100,21 +89,40 @@ export default {
 <style lang="scss" scoped>
 @import "./sndq.scss";
 
-.sndq_input {
+.sndq_checkbox {
   font-family: Graphic, sans-serif;
+  font-size: 14px;
+  line-height: 24px;
   display: flex;
-  align-items: center;
-  gap: 8px;
+  flex-direction: column;
+  gap: 4px;
+
+  .checkbox-row {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 8px;
+  }
+
+  .error-message {
+    color: get_color_with_shade($error, 700);
+  }
 
   input[type="checkbox"] {
     position: relative;
     width: 24px;
     height: 24px;
     background: none;
-    visibility: hidden;
+    outline: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    -o-appearance: none;
 
     &:before {
-      visibility: visible;
+      opacity: 1;
       position: relative;
       display: block;
       width: 24px;
@@ -123,10 +131,11 @@ export default {
       background: get_color_with_shade($neutral, 50);
       border-radius: 4px;
       transition: 0.2s;
+      border: 1px solid transparent;
     }
 
     &:after {
-      visibility: visible;
+      opacity: 1;
       position: absolute;
       display: block;
       top: 50%;
@@ -138,8 +147,8 @@ export default {
       content: "";
     }
 
-    &:focus-within {
-      border: 1px solid get_color_with_shade($primary, 500);
+    &:focus-visible::before {
+      border-color: get_color_with_shade($primary, 500);
       visibility: visible;
     }
 

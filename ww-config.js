@@ -28,14 +28,6 @@ export default {
   ],
 
   properties: {
-    label: {
-      label: {
-        en: "Label",
-      },
-      type: "Text",
-      bindable: true,
-      defaultValue: "Label",
-    },
     value: {
       label: {
         en: "Init value",
@@ -43,6 +35,21 @@ export default {
       type: "OnOff",
       bindable: true,
       defaultValue: true,
+      /* wwEditor:start */
+      bindingValidation: {
+        type: "boolean",
+        tooltip: "Yes/No",
+      },
+      /* wwEditor:end */
+    },
+    required: {
+      label: {
+        en: "Required",
+      },
+      section: "settings",
+      type: "OnOff",
+      bindable: true,
+      defaultValue: false,
       /* wwEditor:start */
       bindingValidation: {
         type: "boolean",
@@ -64,6 +71,10 @@ export default {
         tooltip: "Yes/No",
       },
       /* wwEditor:end */
+    },
+    labelElement: {
+      hidden: true,
+      defaultValue: { isWwObject: true, type: "ww-text" },
     },
   },
 };
