@@ -1,15 +1,22 @@
 <template v-if="content">
-  <div class="sndq_checkbox">
-    <div class="checkbox-row">
+  <div class="sndq_toggle">
+    <div class="toggle-row">
       <input
+        :class="{ [content.variant]: true, pressed }"
         type="checkbox"
         :disabled="content.disabled"
         :required="content.required"
         :checked="checked"
+        @mousedown="pressed = true"
+        @mouseup="pressed = false"
         @change="handleChange"
         @invalid.prevent="handleInvalidInput"
       />
-      <wwElement v-bind="content.labelElement"></wwElement>
+      <wwElement
+        class="label"
+        v-if="!content.hideLabel"
+        v-bind="content.labelElement"
+      ></wwElement>
     </div>
     <div class="error-message" v-if="content.required && errorMessage">
       {{ errorMessage }}
@@ -18,11 +25,11 @@
 </template>
 
 <script>
-import { debounce } from "./utils";
 export default {
   data() {
     return {
       errorMessage: "",
+      pressed: false,
     };
   },
   methods: {
@@ -56,7 +63,6 @@ export default {
       checked,
       setChecked,
       uniqueId: wwLib.wwUtils.getUid(),
-      debounce,
     };
   },
   computed: {
@@ -89,7 +95,7 @@ export default {
 <style lang="scss" scoped>
 @import "./sndq.scss";
 
-.sndq_checkbox {
+.sndq_toggle {
   font-family: Graphic, sans-serif;
   font-size: 14px;
   line-height: 24px;
@@ -97,11 +103,15 @@ export default {
   flex-direction: column;
   gap: 4px;
 
-  .checkbox-row {
+  .toggle-row {
     display: flex;
     align-items: center;
     flex-direction: row;
     gap: 8px;
+  }
+
+  .label {
+    flex: 0;
   }
 
   .error-message {
@@ -110,8 +120,6 @@ export default {
 
   input[type="checkbox"] {
     position: relative;
-    width: 24px;
-    height: 24px;
     background: none;
     outline: none;
     border: none;
@@ -121,56 +129,119 @@ export default {
     -webkit-appearance: none;
     -o-appearance: none;
 
-    &:before {
-      opacity: 1;
-      position: relative;
-      display: block;
+    &.checkbox {
       width: 24px;
       height: 24px;
-      content: "";
-      background: get_color_with_shade($neutral, 50);
-      border-radius: 4px;
-      transition: 0.2s;
-      border: 1px solid transparent;
-    }
 
-    &:after {
-      opacity: 1;
-      position: absolute;
-      display: block;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      content: "";
-    }
+      &:before {
+        position: relative;
+        display: block;
+        width: 24px;
+        height: 24px;
+        content: "";
+        background: get_color_with_shade($neutral, 50);
+        border-radius: 4px;
+        transition: background-color 0.2s, border 0.2s;
+        border: 1px solid transparent;
+      }
 
-    &:focus-visible::before {
-      border-color: get_color_with_shade($primary, 500);
-      visibility: visible;
-    }
+      &:after {
+        position: absolute;
+        display: block;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        content: "";
+      }
 
-    &:disabled {
-      cursor: not-allowed;
-    }
+      &:focus-visible::before {
+        border-color: get_color_with_shade($primary, 600);
+      }
 
-    &:disabled:before {
-      background-color: get_color_with_shade($neutral, 300);
-    }
-    &:checked:after {
-      background: url("./checkmark.svg") no-repeat center;
-    }
+      &.pressed::before {
+        background-color: get_color_with_shade($neutral, 200);
+      }
 
-    &:not(:disabled) {
-      &:not(:checked):hover {
+      &:hover:before {
+        background-color: get_color_with_shade($neutral, 100);
+      }
+
+      &:checked {
         &:before {
-          background-color: get_color_with_shade($neutral, 100);
+          background-color: get_color_with_shade($primary, 700);
+        }
+        &:after {
+          background: url("./checkmark.svg") no-repeat center;
         }
       }
-      &:checked:before {
-        background-color: get_color_with_shade($primary, 700);
+
+      &:disabled {
+        cursor: not-allowed;
+        &:before {
+          background-color: get_color_with_shade($neutral, 300);
+        }
+      }
+    }
+
+    &.switch {
+      width: 40px;
+      height: 24px;
+
+      &:before {
+        position: relative;
+        display: block;
+        width: 40px;
+        height: 24px;
+        content: "";
+        background: get_color_with_shade($neutral, 50);
+        border-radius: 16px;
+        transition: background-color 0.2s;
+        border: 1px solid transparent;
+      }
+
+      &:after {
+        position: absolute;
+        display: block;
+        top: 50%;
+        left: 2px;
+        transform: translateY(-50%);
+        background-color: get_color_with_shade($neutral, 900);
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        transition: 0.2s;
+
+        content: "";
+      }
+
+      &:focus-visible,
+      &.pressed {
+        &::before {
+          background-color: get_color_with_shade($neutral, 200);
+        }
+      }
+
+      &:checked {
+        &:after {
+          background-color: get_color_with_shade($neutral, 0);
+          left: 18px;
+        }
+        &:before {
+          background-color: get_color_with_shade($primary, 700);
+        }
+      }
+
+      &:disabled {
+        cursor: not-allowed;
+        &:before {
+          background-color: get_color_with_shade($neutral, 500);
+        }
+        &:after {
+          background-color: get_color_with_shade($neutral, 700);
+        }
       }
     }
   }

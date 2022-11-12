@@ -1,8 +1,7 @@
 export default {
   editor: {
     label: {
-      fr: "Choix de Formulaire",
-      en: "Checkbox Group",
+      en: "Toggle",
     },
   },
   triggerEvents: [
@@ -28,6 +27,19 @@ export default {
   ],
 
   properties: {
+    variant: {
+      label: {
+        en: "Variant",
+      },
+      type: "TextSelect",
+      defaultValue: "checkbox",
+      options: {
+        options: [
+          { label: "Checkbox", value: "checkbox" },
+          { label: "Switch", value: "switch" },
+        ],
+      },
+    },
     value: {
       label: {
         en: "Init value",
@@ -62,6 +74,20 @@ export default {
         en: "Disabled",
       },
       section: "settings",
+      type: "OnOff",
+      bindable: true,
+      defaultValue: false,
+      /* wwEditor:start */
+      bindingValidation: {
+        type: "boolean",
+        tooltip: "Yes/No",
+      },
+      /* wwEditor:end */
+    },
+    hideLabel: {
+      label: {
+        en: "Hide Label",
+      },
       type: "OnOff",
       bindable: true,
       defaultValue: false,
