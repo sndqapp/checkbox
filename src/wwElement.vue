@@ -1,62 +1,14 @@
 <template v-if="content">
-  <div class="ww-input-checkbox sndq_input">
-    <div class="input-group">
-      <div class="input-group-flex">
-        <div class="input-group__label">{{ content.label }}</div>
-        <div
-          v-if="this.content.descriptionLocation === 'leftlabel'"
-          class="input-group__description"
-        >
-          {{ content.description }}
-        </div>
-        <span v-if="content.reddot" class="required"></span>
-      </div>
-      <div
-        v-if="this.content.descriptionLocation === 'belowlabel'"
-        class="input-group__description"
-      >
-        {{ content.description }}
-      </div>
-    </div>
-
-    <div class="checkbox-group">
-      <div v-if="content.allOption" class="entry">
-        <Checkbox
-          @click="handleAllClick"
-          :status="allState"
-          :ww-editor-state="wwEditorState"
-        />
-
-        <label>
-          {{ this.content.allLabel }}
-        </label>
-      </div>
-      <div :class="content.layout" class="container">
-        <div v-for="(option, index) in options" :key="index" class="entry">
-          <template v-if="option">
-            <Checkbox
-              @click="handleCheckboxClick($event, option)"
-              :status="isSelected(option) ? 'checked' : 'unchecked'"
-              :ww-editor-state="wwEditorState"
-            />
-
-            <component :is="isEditing ? 'div' : 'label'">
-              <wwElement
-                v-bind="content.choicesElement"
-                :ww-props="{ text: this.optionLabel(option) }"
-              />
-            </component>
-          </template>
-        </div>
-      </div>
+  <div class="sndq_input">
+    <input type="checkbox" :disabled="content.disabled" />
+    <div class="label">
+      {{ content.label }}
     </div>
   </div>
 </template>
 
 <script>
-import Checkbox from "./Checkbox.vue";
 export default {
-  components: { Checkbox },
   props: {
     content: { type: Object, required: true },
     /* wwEditor:start */
@@ -67,13 +19,18 @@ export default {
   },
   emits: ["trigger-event", "update:content:effect", "update:sidepanel-content"],
   setup(props) {
-    const { value: variableValue, setValue } =
+    const { value: checked, setValue: setChecked } =
       wwLib.wwVariable.useComponentVariable({
         uid: props.uid,
-        name: "values",
-        defaultValue: props.content.value || [],
+        name: "checked",
+        type: "boolean",
+        defaultValue: false,
       });
-    return { variableValue, setValue, uniqueId: wwLib.wwUtils.getUid() };
+    return {
+      checked,
+      setChecked,
+      uniqueId: wwLib.wwUtils.getUid(),
+    };
   },
   computed: {
     isEditing() {
@@ -85,36 +42,7 @@ export default {
       // eslint-disable-next-line no-unreachable
       return false;
     },
-    allState() {
-      if (this.variableValue.length === 0) {
-        return "unchecked";
-      }
-      if (this.variableValue.length === this.content.options.length) {
-        return "checked";
-      }
-      return "intermediate";
-    },
-    options() {
-      if (!this.content.options) return;
-      let data = this.content.options;
-      if (data && !Array.isArray(data) && typeof data === "object") {
-        data = new Array(data);
-      } else if ((data && !Array.isArray(data)) || typeof data !== "object") {
-        return [];
-      }
-
-      return data
-        .filter((item) => !!item)
-        .map((item) => {
-          if (typeof item !== "object") return { label: item, value: item };
-          return {
-            label: wwLib.wwLang.getText(
-              item[this.content.labelField || "label"] || ""
-            ),
-            value: item[this.content.valueField || "value"],
-          };
-        });
-    },
+    options() {},
     values() {
       return this.options.map(
         (option) => option[this.content.valueField || "value"]
@@ -122,59 +50,9 @@ export default {
     },
   },
   watch: {
-    /* wwEditor:start */
-    "content.options": {
-      immediate: true,
-      handler(options) {
-        const objectOptions = (options || []).filter(
-          (option) => option && typeof option === "object"
-        );
-        if (objectOptions[0]) {
-          this.$emit("update:sidepanel-content", {
-            path: "itemsProperties",
-            value: Object.keys(objectOptions[0]),
-          });
-        } else {
-          this.$emit("update:sidepanel-content", {
-            path: "itemsProperties",
-            value: [],
-          });
-        }
-      },
-    },
-    "wwEditorState.sidepanelContent.itemsProperties"(
-      newProperties,
-      oldProperties
-    ) {
-      if (_.isEqual(newProperties, oldProperties)) return;
-      if (
-        this.wwEditorState.boundProps.options &&
-        newProperties &&
-        newProperties[0]
-      ) {
-        this.$emit("update:content:effect", {
-          labelField: newProperties[0],
-          valueField: newProperties[0],
-        });
-      } else {
-        this.$emit("update:content:effect", {
-          labelField: null,
-          valueField: null,
-        });
-      }
-    },
-    "wwEditorState.boundProps.options"(isBind) {
-      if (!isBind)
-        this.$emit("update:content:effect", {
-          labelField: null,
-          valueField: null,
-        });
-    },
-    /* wwEditor:end */
     "content.value"(newValue) {
-      newValue = `${newValue}`;
       if (newValue === this.value) return;
-      this.setValue(newValue);
+      this.setChecked(newValue);
       this.$emit("trigger-event", {
         name: "initValueChange",
         event: { value: newValue },
@@ -183,7 +61,7 @@ export default {
   },
   methods: {
     isSelected(option) {
-      return this.variableValue.indexOf(this.optionValue(option)) !== -1;
+      return this.checked.indexOf(this.optionValue(option)) !== -1;
     },
 
     optionLabel(option) {
@@ -195,27 +73,24 @@ export default {
     },
 
     handleAllClick(event) {
-      console.log(this.allState);
       if (this.allState === "unchecked") {
-      this.setValue(this.values);
+        this.setChecked(this.values);
       } else {
-        this.setValue([]);
+        this.setChecked([]);
       }
     },
 
     handleCheckboxClick(event, option) {
       if (this.isSelected(option)) {
-        this.setValue(
-          this.variableValue.filter(
-            (value) => value !== this.optionValue(option)
-          )
+        this.setChecked(
+          this.checked.filter((value) => value !== this.optionValue(option))
         );
       } else {
-        this.setValue([...this.variableValue, this.optionValue(option)]);
+        this.setChecked([...this.checked, this.optionValue(option)]);
       }
       this.$emit("trigger-event", {
         name: "change",
-        event: { domEvent: event, value: this.variableValue },
+        event: { domEvent: event, value: this.checked },
       });
     },
   },
@@ -223,83 +98,72 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "./sndq.scss";
+
 .sndq_input {
   font-family: Graphic, sans-serif;
-}
-
-.hidden {
-  display: none;
-}
-
-.input-group {
-  margin-bottom: 4px;
-}
-
-.input-group__label {
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 24px;
-  letter-spacing: 0;
-  text-align: left;
-  color: #121826;
-  margin-right: 8px;
-  height: 24px;
-}
-
-.input-group__description {
-  color: #364052;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 16px;
-}
-
-.bottomdescriptionbox {
-  margin: 4px 0;
-  padding: 0 8px;
-}
-
-.input-group-flex {
   display: flex;
-  flex-direction: row;
   align-items: center;
-}
+  gap: 8px;
 
-.required {
-  width: 4px;
-  height: 4px;
-  background: #fd5754;
-  border-radius: 3px;
-}
+  input[type="checkbox"] {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    background: none;
+    visibility: hidden;
 
-.ww-input-checkbox {
-  .checkbox-group {
-    display: flex;
-    flex-direction: column;
-    row-gap: 16px;
-    margin-top: 16px;
-  }
+    &:before {
+      visibility: visible;
+      position: relative;
+      display: block;
+      width: 24px;
+      height: 24px;
+      content: "";
+      background: get_color_with_shade($neutral, 50);
+      border-radius: 4px;
+      transition: 0.2s;
+    }
 
-  .entry {
-    gap: 8px;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
-  }
+    &:after {
+      visibility: visible;
+      position: absolute;
+      display: block;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      content: "";
+    }
 
-  .container {
-    display: flex;
-    flex-wrap: wrap;
-    column-gap: 24px;
-    row-gap: 16px;
-  }
+    &:focus-within {
+      border: 1px solid get_color_with_shade($primary, 500);
+      visibility: visible;
+    }
 
-  .container.horizontal {
-    flex-direction: row;
-  }
-  .container.vertical {
-    flex-direction: column;
+    &:disabled {
+      cursor: not-allowed;
+    }
+
+    &:disabled:before {
+      background-color: get_color_with_shade($neutral, 300);
+    }
+    &:checked:after {
+      background: url("./checkmark.svg") no-repeat center;
+    }
+
+    &:not(:disabled) {
+      &:not(:checked):hover {
+        &:before {
+          background-color: get_color_with_shade($neutral, 100);
+        }
+      }
+      &:checked:before {
+        background-color: get_color_with_shade($primary, 700);
+      }
+    }
   }
 }
 </style>
