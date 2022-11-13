@@ -100,7 +100,16 @@ export default {
     },
     labelElement: {
       hidden: true,
-      defaultValue: { isWwObject: true, type: "ww-text" },
+      defaultValue: [
+        {
+          isWwObject: true,
+          type: "ww-text",
+          state: {
+            name: "Label",
+          },
+          content: { text: "Label" },
+        },
+      ],
     },
   },
 };

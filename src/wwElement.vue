@@ -12,11 +12,12 @@
         @change="handleChange"
         @invalid.prevent="handleInvalidInput"
       />
-      <wwElement
+      <wwLayout
+        path="labelElement"
+        direction="row"
         class="label"
         v-if="!content.hideLabel"
-        v-bind="content.labelElement"
-      ></wwElement>
+      />
     </div>
     <div class="error-message" v-if="content.required && errorMessage">
       {{ errorMessage }}
@@ -111,7 +112,7 @@ export default {
   }
 
   .label {
-    flex: 0;
+    flex: 1;
   }
 
   .error-message {
