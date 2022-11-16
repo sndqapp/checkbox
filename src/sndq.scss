@@ -23,7 +23,33 @@ $color-map: (
   error: $error,
 );
 
-@function get_color_with_shade($color, $shade) {
+@function sndq-color($color, $shade) {
   $shade_index: index($shades, $shade);
   @return nth($color, $shade_index);
+}
+
+$font-specs: (
+  // name, size, line-height, weight
+  h1: (28px, 40px, 700),
+  h2: (24px, 32px, 700),
+  h3: (20px, 32px, 500),
+  h4: (18px, 32px, 500),
+  h5: (14px, 24px, 700),
+  h6: (14px, 24px, 500),
+  paragraph: (14px, 24px, 400),
+  link: (14px, 24px, 400),
+  caption: (12px, 16px, 400)
+);
+
+@mixin typo($name: "paragraph") {
+  $spec: map-get($font-specs, $name);
+
+  font-family: Graphic, sans-serif;
+  font-size: nth($spec, 1);
+  line-height: nth($spec, 2);
+  font-weight: nth($spec, 3);
+  letter-spacing: 0;
+  @if ($name == "link") {
+    text-decoration: underline;
+  }
 }
