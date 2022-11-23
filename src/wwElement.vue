@@ -2,7 +2,8 @@
   <div class="sndq_toggle">
     <div class="toggle-row">
       <input
-        :class="{ [content.variant]: true, pressed }"
+        ref="input"
+        :class="{ [content.variant]: true, pressed, editing: isEditing }"
         type="checkbox"
         :disabled="content.disabled"
         :required="content.required"
@@ -93,15 +94,23 @@ export default {
         event: { value: newValue },
       });
     },
+    "content.indeterminate"(value, oldValue) {
+      if (value !== oldValue) {
+        this.$refs.input.indeterminate = value;
+      }
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-@import "./sndq.scss";
+@import "briicks-design/styles/typography";
+@import "briicks-design/styles/colors";
 
 .sndq_toggle {
   @include typo(h6);
+
+  $brand: sndq;
 
   display: flex;
   flex-direction: column;
@@ -119,7 +128,7 @@ export default {
   }
 
   .error-message {
-    color: sndq-color($error, 700);
+    color: brand-color($brand, error, 700);
   }
 
   input[type="checkbox"] {
@@ -133,6 +142,10 @@ export default {
     -webkit-appearance: none;
     -o-appearance: none;
 
+    &.editing {
+      pointer-events: none;
+    }
+
     &.checkbox {
       width: 24px;
       height: 24px;
@@ -143,7 +156,7 @@ export default {
         width: 24px;
         height: 24px;
         content: "";
-        background: sndq-color($neutral, 50);
+        background: brand-color($brand, neutral, 50);
         border-radius: 4px;
         transition: background-color 0.2s, border 0.2s;
         border: 1px solid transparent;
@@ -162,30 +175,39 @@ export default {
       }
 
       &:focus-visible::before {
-        border-color: sndq-color($primary, 600);
+        border-color: brand-color($brand, primary, 600);
       }
 
       &.pressed::before {
-        background-color: sndq-color($neutral, 200);
+        background-color: brand-color($brand, neutral, 200);
       }
 
       &:hover:before {
-        background-color: sndq-color($neutral, 100);
+        background-color: brand-color($brand, neutral, 100);
       }
 
       &:checked {
         &:before {
-          background-color: sndq-color($primary, 700);
+          background-color: brand-color($brand, primary, 700);
         }
         &:after {
-          background: url("./checkmark.svg") no-repeat center;
+          background: url("checkmark.svg") no-repeat center;
+        }
+      }
+
+      &:indeterminate {
+        &:before {
+          background-color: brand-color($brand, primary, 700);
+        }
+        &:after {
+          background: url("indeterminate.svg") no-repeat center;
         }
       }
 
       &:disabled {
         cursor: not-allowed;
         &:before {
-          background-color: sndq-color($neutral, 300);
+          background-color: brand-color($brand, neutral, 300);
         }
       }
     }
@@ -200,7 +222,7 @@ export default {
         width: 40px;
         height: 24px;
         content: "";
-        background: sndq-color($neutral, 50);
+        background: brand-color($brand, neutral, 50);
         border-radius: 16px;
         transition: background-color 0.2s;
         border: 1px solid transparent;
@@ -212,7 +234,7 @@ export default {
         top: 50%;
         left: 2px;
         transform: translateY(-50%);
-        background-color: sndq-color($neutral, 900);
+        background-color: brand-color($brand, neutral, 900);
         width: 20px;
         height: 20px;
         border-radius: 50%;
@@ -224,27 +246,35 @@ export default {
       &:focus-visible,
       &.pressed {
         &::before {
-          background-color: sndq-color($neutral, 200);
+          background-color: brand-color($brand, neutral, 200);
         }
       }
 
       &:checked {
         &:after {
-          background-color: sndq-color($neutral, 0);
+          background-color: brand-color($brand, neutral, 0);
           left: 18px;
         }
         &:before {
-          background-color: sndq-color($primary, 700);
+          background-color: brand-color($brand, primary, 700);
         }
       }
 
+      &:indeterminate {
+        &:before {
+          background-color: brand-color($brand, primary, 700);
+        }
+        &:after {
+          left: 9px;
+        }
+      }
       &:disabled {
         cursor: not-allowed;
         &:before {
-          background-color: sndq-color($neutral, 500);
+          background-color: brand-color($brand, neutral, 500);
         }
         &:after {
-          background-color: sndq-color($neutral, 700);
+          background-color: brand-color($brand, neutral, 700);
         }
       }
     }

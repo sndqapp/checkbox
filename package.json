@@ -1,21 +1,22 @@
 {
-    "name": "sndq-toggle",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/sndqapp/input-checkbox"
-    },
-    "version": "0.0.6",
-    "scripts": {
-        "build": "weweb build",
-        "serve": "weweb serve"
-    },
-    "devDependencies": {
-        "@vue/eslint-config-prettier": "^6.0.0",
-        "@weweb/cli": "latest",
-        "eslint": "^7.7.0",
-        "eslint-plugin-prettier": "^3.1.4",
-        "eslint-plugin-vue": "7.0.0-beta.4",
-        "prettier": "^2.1.2"
-    },
-    "license": "MIT"
+  "name": "sndq-toggle",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sndqapp/input-checkbox"
+  },
+  "version": "2.0.0",
+  "scripts": {
+    "build": "weweb build",
+    "serve": "weweb serve"
+  },
+  "devDependencies": {
+    "@vue/eslint-config-prettier": "^6.0.0",
+    "@weweb/cli": "latest",
+    "eslint": "^7.7.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-vue": "7.0.0-beta.4",
+    "prettier": "^2.1.2",
+    "briicks-design": "^0.0.2"
+  },
+  "license": "MIT"
 }

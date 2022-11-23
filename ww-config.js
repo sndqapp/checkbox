@@ -40,6 +40,7 @@ export default {
         ],
       },
     },
+
     value: {
       label: {
         en: "Init value",
@@ -54,6 +55,7 @@ export default {
       },
       /* wwEditor:end */
     },
+
     required: {
       label: {
         en: "Required",
@@ -69,6 +71,45 @@ export default {
       },
       /* wwEditor:end */
     },
+
+    indeterminate: {
+      label: {
+        en: "Indeterminate",
+      },
+      section: "settings",
+      type: "Info",
+      bindable: true,
+      defaultValue: false,
+      /* wwEditor:start */
+      bindingValidation: {
+        type: "boolean",
+        tooltip: "Yes/No",
+      },
+      /* wwEditor:end */
+    },
+
+    hideLabel: {
+      label: {
+        en: "Hide Label",
+      },
+      type: "OnOff",
+      defaultValue: false,
+    },
+
+    labelElement: {
+      hidden: true,
+      defaultValue: [
+        {
+          isWwObject: true,
+          type: "0bb24f42-7f3c-4bdb-b30e-24092080bdac",
+          state: {
+            name: "Label",
+          },
+          content: { text: "Label" },
+        },
+      ],
+    },
+
     disabled: {
       label: {
         en: "Disabled",
@@ -83,33 +124,6 @@ export default {
         tooltip: "Yes/No",
       },
       /* wwEditor:end */
-    },
-    hideLabel: {
-      label: {
-        en: "Hide Label",
-      },
-      type: "OnOff",
-      bindable: true,
-      defaultValue: false,
-      /* wwEditor:start */
-      bindingValidation: {
-        type: "boolean",
-        tooltip: "Yes/No",
-      },
-      /* wwEditor:end */
-    },
-    labelElement: {
-      hidden: true,
-      defaultValue: [
-        {
-          isWwObject: true,
-          type: "ww-text",
-          state: {
-            name: "Label",
-          },
-          content: { text: "Label" },
-        },
-      ],
     },
   },
 };
