@@ -27,6 +27,20 @@ export default {
   ],
 
   properties: {
+    brand: {
+      label: { en: 'Brand' },
+      type: 'TextSelect',
+      options: {
+          options: [
+              { value: 'sndq', label: { en: 'SNDQ' } },
+              { value: 'struqta', label: { en: 'Struqta' } },
+              { value: 'nuvoni', label: { en: 'Nuvoni' } },
+              { value: 'immogeste', label: { en: 'Immogeste' } },
+          ],
+      },
+      responsive: true,
+      defaultValue: 'sndq',
+  },
     variant: {
       label: {
         en: "Variant",
@@ -101,7 +115,14 @@ export default {
         en: "Hide Label",
       },
       type: "OnOff",
+      bindable: true,
       defaultValue: false,
+      /* wwEditor:start */
+      bindingValidation: {
+        type: "boolean",
+        tooltip: "Yes/No",
+      },
+      /* wwEditor:end */
     },
 
     labelElement: {
