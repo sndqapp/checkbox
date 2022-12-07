@@ -27,20 +27,6 @@ export default {
   ],
 
   properties: {
-    brand: {
-      label: { en: 'Brand' },
-      type: 'TextSelect',
-      options: {
-          options: [
-              { value: 'sndq', label: { en: 'SNDQ' } },
-              { value: 'struqta', label: { en: 'Struqta' } },
-              { value: 'nuvoni', label: { en: 'Nuvoni' } },
-              { value: 'immogeste', label: { en: 'Immogeste' } },
-          ],
-      },
-      responsive: true,
-      defaultValue: 'sndq',
-  },
     variant: {
       label: {
         en: "Variant",
