@@ -2,9 +2,10 @@
   <div class="sndq_toggle">
     <div class="toggle-row">
       <input
+        class="toggle-input"
         ref="input"
         :class="{ [content.variant]: true, pressed, editing: isEditing }"
-        type="checkbox"
+        :type="content.variant === 'radio' ? 'radio' : 'checkbox'"
         :disabled="content.disabled"
         :required="content.required"
         :checked="checked"
@@ -131,7 +132,7 @@ export default {
     color: brand-color($brand, error, 700);
   }
 
-  input[type="checkbox"] {
+  .toggle-input {
     position: relative;
     background: none;
     outline: none;
@@ -275,6 +276,94 @@ export default {
         }
         &:after {
           background-color: brand-color($brand, neutral, 700);
+        }
+      }
+    }
+
+    &.radio {
+      width: 24px;
+      height: 24px;
+
+      &.editing {
+        pointer-events: none;
+      }
+
+      &:before {
+        position: relative;
+        display: block;
+        width: 24px;
+        height: 24px;
+        content: "";
+        background: brand-color($brand, neutral, 50);
+        border-radius: 12px;
+        transition: background-color 0.2s, border 0.2s;
+        border: 1px solid transparent;
+      }
+
+      &:after {
+        position: absolute;
+        display: block;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        transition: 0.2s;
+        content: "";
+      }
+
+      &:focus-visible {
+        &::before {
+          background-color: brand-color($brand, neutral, 100);
+          border-color: brand-color($brand, primary, 600);
+        }
+
+        &::after {
+          width: 8px;
+          height: 8px;
+          background-color: brand-color($brand, primary, 700);
+        }
+      }
+
+      &:hover:not(:disabled):not(:checked) {
+        &:before {
+          background-color: brand-color($brand, neutral, 100);
+        }
+
+        &::after {
+          width: 8px;
+          height: 8px;
+          background-color: brand-color($brand, primary, 700);
+        }
+      }
+
+      &.pressed {
+        &::before {
+          background-color: brand-color($brand, neutral, 200);
+        }
+      }
+
+      &:checked {
+        &:before {
+        }
+
+        &:after {
+          width: 16px;
+          height: 16px;
+          background-color: brand-color($brand, primary, 700);
+        }
+      }
+
+      &:disabled {
+        cursor: not-allowed;
+
+        &:before {
+          background-color: brand-color($brand, neutral, 500);
+        }
+
+        &:after {
+          background-color: brand-color($brand, primary, 700);
         }
       }
     }

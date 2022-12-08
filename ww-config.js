@@ -37,7 +37,15 @@ export default {
         options: [
           { label: "Checkbox", value: "checkbox" },
           { label: "Switch", value: "switch" },
+          { label: "Radio", value: "radio" },
         ],
+      },
+    },
+
+    radioTips: {
+      type: "Info",
+      options: {
+        text: "Radio element cannot be disabled on click. You should bind the init value + listen on the change event to update the element status",
       },
     },
 
