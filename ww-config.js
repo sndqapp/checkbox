@@ -27,6 +27,26 @@ export default {
   ],
 
   properties: {
+    aboutname: {
+      label: "About",
+      type: "Info",
+      editorOnly: true,
+      options: {
+        text: {
+          en: "checkbox",
+        },
+      },
+    },
+    aboutversion: {
+      label: "Version",
+      type: "Info",
+      editorOnly: true,
+      options: {
+        text: {
+          en: "3.0.2",
+        },
+      },
+    },
     brand: {
       label: { en: 'Brand' },
       type: 'TextSelect',
