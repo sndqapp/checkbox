@@ -107,10 +107,4 @@ export default {
 <style lang="scss" scoped>
 @import "~briicks-design/styles/const";
 @import "./element.scss";
-
-@each $brand in $brands {
-  .briicks-toggle.#{$brand} {
-    @include briicks-toggle($brand);
-  }
-}
 </style>

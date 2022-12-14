@@ -258,3 +258,9 @@
     }
   }
 }
+
+@each $brand in $brands {
+  .briicks-toggle.#{$brand} {
+    @include briicks-toggle($brand);
+  }
+}
