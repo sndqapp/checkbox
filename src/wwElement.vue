@@ -1,5 +1,5 @@
 <template v-if="content">
-  <div class="briicks-toggle" :class="[this.content.brand]">
+  <div class="briicks-toggle" :class="[content.brand]">
     <div class="toggle-row">
       <input
         class="toggle-input"
@@ -40,13 +40,15 @@ export default {
       this.errorMessage = e.target.validationMessage;
     },
     handleChange(e) {
-      this.setChecked(e.target.checked);
-      this.$emit("trigger-event", {
-        name: "change",
-        event: { value: e.target.checked },
-      });
-      this.errorMessage = "";
-      e.target.reportValidity();
+      if (typeof e.target.checked == "boolean") {
+        this.setChecked(e.target.checked);
+        this.$emit("trigger-event", {
+          name: "change",
+          event: { value: e.target.checked },
+        });
+        this.errorMessage = "";
+        e.target.reportValidity();
+      }
     },
   },
   props: {
@@ -97,7 +99,9 @@ export default {
     },
     "content.indeterminate"(value, oldValue) {
       if (value !== oldValue) {
-        this.$refs.input.indeterminate = value;
+        if(this.$refs.input){
+          this.$refs.input.indeterminate = value;
+        }
       }
     },
   },
