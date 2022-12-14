@@ -4,7 +4,7 @@
     "type": "git",
     "url": "https://github.com/sndqapp/input-checkbox"
   },
-  "version": "3.0.2",
+  "version": "3.0.3",
   "scripts": {
     "build": "weweb build",
     "serve": "weweb serve"

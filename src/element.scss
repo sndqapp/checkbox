@@ -33,6 +33,7 @@
     -moz-appearance: none;
     -webkit-appearance: none;
     -o-appearance: none;
+    appearance: none;
 
     &.editing {
       pointer-events: none;
@@ -236,9 +237,6 @@
       }
 
       &:checked {
-        &:before {
-        }
-
         &:after {
           width: 16px;
           height: 16px;

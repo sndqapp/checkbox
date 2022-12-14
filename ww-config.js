@@ -25,7 +25,6 @@ export default {
       },
     },
   ],
-
   properties: {
     aboutname: {
       label: "About",
@@ -43,7 +42,7 @@ export default {
       editorOnly: true,
       options: {
         text: {
-          en: "3.0.2",
+          en: "3.0.3",
         },
       },
     },
@@ -75,14 +74,12 @@ export default {
         ],
       },
     },
-
     radioTips: {
       type: "Info",
       options: {
         text: "Radio element cannot be disabled on click. You should bind the init value + listen on the change event to update the element status",
       },
     },
-
     value: {
       label: {
         en: "Init value",
@@ -97,7 +94,6 @@ export default {
       },
       /* wwEditor:end */
     },
-
     required: {
       label: {
         en: "Required",
@@ -113,7 +109,6 @@ export default {
       },
       /* wwEditor:end */
     },
-
     indeterminate: {
       label: {
         en: "Indeterminate",
@@ -129,7 +124,6 @@ export default {
       },
       /* wwEditor:end */
     },
-
     hideLabel: {
       label: {
         en: "Hide Label",
@@ -144,7 +138,6 @@ export default {
       },
       /* wwEditor:end */
     },
-
     labelElement: {
       hidden: true,
       defaultValue: [
@@ -158,7 +151,6 @@ export default {
         },
       ],
     },
-
     disabled: {
       label: {
         en: "Disabled",
@@ -173,6 +165,6 @@ export default {
         tooltip: "Yes/No",
       },
       /* wwEditor:end */
-    },
-  },
+    }
+  }
 };
