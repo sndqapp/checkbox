@@ -4,7 +4,7 @@
     "type": "git",
     "url": "https://github.com/sndqapp/input-checkbox"
   },
-  "version": "3.0.5",
+  "version": "3.0.6",
   "scripts": {
     "build": "weweb build",
     "serve": "weweb serve"
@@ -12,11 +12,13 @@
   "devDependencies": {
     "@vue/eslint-config-prettier": "^6.0.0",
     "@weweb/cli": "latest",
-    "briicks-design": "^0.0.5",
     "eslint": "^7.7.0",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-vue": "7.0.0-beta.4",
     "prettier": "^2.1.2"
+  },
+  "dependencies": {
+    "briicks-design": "^0.0.5"
   },
   "license": "MIT"
 }
