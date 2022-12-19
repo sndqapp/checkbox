@@ -42,7 +42,7 @@ export default {
       editorOnly: true,
       options: {
         text: {
-          en: "3.0.5.1",
+          en: "3.0.5.2",
         },
       },
     },
