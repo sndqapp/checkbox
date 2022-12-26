@@ -3,6 +3,8 @@ export default {
     label: {
       en: "Toggle",
     },
+    deprecated: "Use sndq-toggle-{x} element with the highest x"
+
   },
   triggerEvents: [
     {
@@ -27,6 +29,16 @@ export default {
   ],
 
   properties: {
+    about: {
+      label: "sndq-toggle",
+      type: "Info",
+      editorOnly: true,
+      options: {
+          text: {
+              en: "v0.0.7"
+          }
+      }
+  },
     variant: {
       label: {
         en: "Variant",
